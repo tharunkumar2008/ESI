@@ -132,3 +132,35 @@ button:active { transform: scale(0.985); }
   .gov-shell header { min-height: 72px; }
   .gov-shell main { padding-top: 16px; }
 }
+
+/* Electric-grid visual language */
+:root {
+  --electric-cyan: #22d3ee;
+  --electric-blue: #2b7fff;
+  --electric-violet: #735cff;
+  --electric-ink: #092c4d;
+}
+.gov-shell main::after { content: ""; position: absolute; inset: 0; pointer-events: none; opacity: .34; background-image: linear-gradient(rgba(43,127,255,.075) 1px, transparent 1px), linear-gradient(90deg, rgba(43,127,255,.075) 1px, transparent 1px), radial-gradient(circle at 18% 28%, rgba(34,211,238,.10), transparent 21%), radial-gradient(circle at 92% 62%, rgba(115,92,255,.07), transparent 22%); background-size: 44px 44px, 44px 44px, auto, auto; mask-image: linear-gradient(180deg, #000 0%, rgba(0,0,0,.72) 45%, transparent 100%); }
+.gov-shell aside { position: relative; overflow: hidden; }
+.gov-shell aside::before { content: ""; position: absolute; inset: 0; pointer-events: none; opacity: .42; background-image: linear-gradient(90deg, transparent 0 86%, rgba(34,211,238,.14) 86% 86.5%, transparent 86.5%), linear-gradient(180deg, transparent 0 22%, rgba(34,211,238,.13) 22% 22.5%, transparent 22.5% 56%, rgba(115,92,255,.10) 56% 56.5%, transparent 56.5%); background-size: 100% 100%, 100% 100%; }
+.gov-shell aside::after { content: ""; position: absolute; right: 18px; top: 22%; width: 8px; height: 8px; border: 1px solid rgba(34,211,238,.5); border-radius: 999px; box-shadow: 0 0 0 5px rgba(34,211,238,.06), 0 0 20px rgba(34,211,238,.22); pointer-events: none; }
+.gov-shell aside > * { position: relative; z-index: 1; }
+.gov-shell .gov-strip { box-shadow: 0 2px 10px rgba(18,52,90,.05); }
+.gov-shell .gov-panel, .gov-shell .gov-data-card { position: relative; overflow: hidden; }
+.gov-shell .gov-panel::before, .gov-shell .gov-data-card::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 2px; background: linear-gradient(90deg, rgba(34,211,238,.9), rgba(43,127,255,.52), transparent 74%); opacity: .72; }
+.gov-shell .gov-data-card::after { content: ""; position: absolute; right: -28px; bottom: -35px; width: 105px; height: 105px; border: 1px solid rgba(34,211,238,.12); border-radius: 50%; box-shadow: 0 0 0 10px rgba(34,211,238,.025), 0 0 0 20px rgba(43,127,255,.02); pointer-events: none; }
+.gov-shell .gov-data-card:hover { box-shadow: 0 0 0 1px rgba(34,211,238,.24), 0 16px 34px rgba(18,52,90,.12), 0 0 28px rgba(34,211,238,.07); }
+.gov-shell .gov-nav-active { background: linear-gradient(90deg, rgba(34,211,238,.13), rgba(43,127,255,.08)) !important; }
+.gov-shell .gov-blue-button { box-shadow: 0 8px 18px rgba(29,99,169,.2), inset 0 1px 0 rgba(255,255,255,.25); }
+.gov-shell .gov-live-signal { color: #117f90 !important; background: linear-gradient(90deg, rgba(34,211,238,.13), rgba(43,127,255,.08)); border-color: rgba(34,211,238,.28) !important; }
+.gov-shell .gov-energy-line { position: relative; overflow: hidden; }
+.gov-shell .gov-energy-line::after { content: ""; position: absolute; left: -25%; right: 0; bottom: 0; height: 2px; background: linear-gradient(90deg, transparent, var(--electric-cyan), var(--electric-blue), transparent); transform: translateX(-40%); opacity: .7; }
+@media (prefers-reduced-motion: no-preference) {
+  .gov-shell .gov-energy-line::after { animation: energy-flow 3.8s cubic-bezier(.23,1,.32,1) infinite; }
+  .gov-shell aside::after { animation: electric-pulse 2.8s ease-in-out infinite; }
+}
+@keyframes energy-flow { 0% { transform: translateX(-58%); } 55%, 100% { transform: translateX(108%); } }
+@keyframes electric-pulse { 0%,100% { opacity: .45; box-shadow: 0 0 0 5px rgba(34,211,238,.05), 0 0 18px rgba(34,211,238,.15); } 50% { opacity: 1; box-shadow: 0 0 0 8px rgba(34,211,238,.08), 0 0 28px rgba(34,211,238,.35); } }
+
+@media (max-width: 1023px) { .gov-shell aside { position: fixed; } }
+@media (min-width: 1024px) { .gov-shell aside { position: relative; } }
