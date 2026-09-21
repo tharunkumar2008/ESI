@@ -214,3 +214,8 @@ button:active { transform: scale(0.985); }
 .geo-asset-label small { margin-top: 1px; font-size: 8px; color: #6d8c96; }
 .geo-asset-marker.is-selected .geo-asset-dot { border-width: 2px; }
 @media (max-width: 640px) { .geo-asset-label { display: none; } .geo-asset-dot { height: 24px; width: 24px; } .geo-map-shell { min-height: 480px; } }
+
+/* Founder signature */
+.founder-signature { align-items: center; gap: 8px; border-left: 1px solid rgba(29,99,169,.16); padding-left: 14px; }
+.founder-signature span { color: #6c8795; font-family: 'DM Mono', ui-monospace, monospace; font-size: 8px; font-weight: 700; letter-spacing: .14em; }
+.founder-signature strong { color: #174f76; font-size: 10px; font-weight: 950; letter-spacing: .02em; }
