@@ -135,3 +135,9 @@ Use a 5V or 12V DC supply, INA219 sensor, DC loads, LEDs, relay, buzzer, and OLE
 ## Future scope
 
 Replace the deterministic demo state with streamed sensor readings, persist 30-day 15-minute telemetry, train Isolation Forest and seasonal baselines on validated utility data, add Leaflet/GIS layers, integrate field-workflow assignments, add PostgreSQL production migrations, and introduce authorized utility access controls.
+
+## Bilingual government-style portal layer
+
+The UI now supports English and Tamil through the language toggle in the top header. Primary navigation, dashboard hero copy, key metrics, feature headings, portal messaging, and the collaboration-readiness settings panel have Tamil translations. The visual system uses a public-service portal treatment: navy institutional navigation, white content surfaces, restrained blue accents, accessibility-minded contrast, a utility-services strip, and a clear simulated-data badge.
+
+The portal includes links to the current public service sites discovered from official utility pages: [TNPDCL](https://www.tnpdcl.org/en/tnpdcl/), [TNEB Ltd](https://www.tnebltd.org/en/tneb/), and [TNPDCL Quick Pay](https://www.tnebnet.org/qwp/qpay). These are external links only. ESI does not claim to be owned, operated, endorsed, or officially integrated with TNEB, TANGEDCO, or TNPDCL without an authorized API, MoU, branding approval, and utility security review.
