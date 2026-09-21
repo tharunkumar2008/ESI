@@ -103,3 +103,32 @@ button:active { transform: scale(0.985); }
 .gov-shell aside [class*="text-[#5ee6d0]"], .gov-shell aside [class*="text-[#a9eee1]"], .gov-shell aside [class*="text-[#baf6ec]"] { color: #a9eee1; }
 .gov-shell aside [class*="text-[#e4f4f1]"], .gov-shell aside [class*="text-[#cbdde2]"] { color: #ffffff; }
 .gov-shell aside [class*="bg-[#5ee6d0]"] { color: #04100f; }
+
+/* High-polish institutional refinement */
+.gov-shell { isolation: isolate; }
+.gov-shell main { position: relative; overflow: hidden; }
+.gov-shell main::before { content: ""; position: absolute; inset: 0 0 auto; height: 210px; pointer-events: none; background: radial-gradient(circle at 88% 0%, rgba(29,99,169,.11), transparent 34%), linear-gradient(180deg, rgba(255,255,255,.62), transparent); }
+.gov-shell main > * { position: relative; z-index: 1; }
+.gov-shell header { min-height: 78px; }
+.gov-shell header::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 3px; background: linear-gradient(90deg, #e99b35 0 33%, #ffffff 33% 66%, #17834d 66%); }
+.gov-shell .gov-strip { position: relative; }
+.gov-shell .gov-strip::after { content: "PUBLIC UTILITY INNOVATION / CONTROLLED PROTOTYPE"; display: block; margin-top: 2px; font-family: 'DM Mono', ui-monospace, monospace; font-size: 8px; letter-spacing: .16em; color: #8a9baa; }
+.gov-shell .gov-panel, .gov-shell .gov-data-card { transition: box-shadow .22s ease, transform .22s ease, border-color .22s ease; }
+.gov-shell .gov-panel:hover, .gov-shell .gov-data-card:hover { border-color: rgba(29,99,169,.28); box-shadow: 0 12px 28px rgba(18,52,90,.09); }
+.gov-shell aside button { letter-spacing: -.01em; }
+.gov-shell aside .gov-nav-active { color: #baf6ec !important; box-shadow: inset 3px 0 0 #5ee6d0; }
+.gov-shell aside .gov-nav-active svg { color: #5ee6d0 !important; }
+.gov-shell .gov-strip a { transition: color .16s ease, transform .16s ease; }
+.gov-shell .gov-strip a:hover { transform: translateY(-1px); }
+.gov-shell button:focus-visible, .gov-shell a:focus-visible { outline: 3px solid rgba(29,99,169,.28); outline-offset: 2px; }
+.gov-shell .panel-shine { box-shadow: 0 8px 22px rgba(18,52,90,.06), inset 0 1px 0 rgba(255,255,255,.8); }
+.gov-shell .mono { letter-spacing: .02em; }
+.gov-shell h1, .gov-shell h2, .gov-shell h3 { letter-spacing: -.045em; }
+.gov-shell .text-\[\#5ee6d0\] { color: #177d78; }
+.gov-shell .bg-\[\#5ee6d0\] { background: #177d78; }
+.gov-shell .border-\[\#5ee6d0\]\/20 { border-color: rgba(23,125,120,.25); }
+@media (max-width: 640px) {
+  .gov-shell .gov-strip::after { display: none; }
+  .gov-shell header { min-height: 72px; }
+  .gov-shell main { padding-top: 16px; }
+}
