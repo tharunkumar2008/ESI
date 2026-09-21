@@ -196,3 +196,21 @@ button:active { transform: scale(0.985); }
 .esi-brand-lockup { display: flex; min-width: 0; flex-direction: column; gap: 1px; }
 .esi-brand-title { color: #e8f6f4; font-size: 18px; font-weight: 950; letter-spacing: -.075em; line-height: 1; }
 .esi-brand-subtitle { overflow: hidden; color: #78a3aa; font-size: 8px; font-weight: 800; letter-spacing: .11em; line-height: 1.2; text-overflow: ellipsis; text-transform: uppercase; white-space: nowrap; }
+
+/* Tamil Nadu geographic network map */
+.geo-map-shell { background: radial-gradient(circle at 52% 46%, rgba(34,211,238,.09), transparent 32%), linear-gradient(135deg, #071722, #0a2031 54%, #07131d); }
+.geo-map-grid { opacity: .42; background-image: linear-gradient(rgba(34,211,238,.08) 1px, transparent 1px), linear-gradient(90deg, rgba(34,211,238,.08) 1px, transparent 1px); background-size: 32px 32px; mask-image: radial-gradient(ellipse at center, #000, transparent 78%); }
+.tn-state-outline { stroke: rgba(109,223,205,.62); stroke-width: .7; stroke-linejoin: round; filter: drop-shadow(0 0 5px rgba(34,211,238,.12)); }
+.tn-state-glow { fill: rgba(34,211,238,.11); stroke: rgba(34,211,238,.14); stroke-width: 2.2; filter: url(#tnGlow); }
+.tn-route { fill: none; stroke: rgba(94,230,208,.65); stroke-width: .8; stroke-dasharray: 2 2; }
+.tn-route-warm { stroke: rgba(255,180,84,.58); }
+.tn-label { fill: rgba(132,190,195,.48); font-family: 'DM Mono', monospace; font-size: 3px; font-weight: 700; letter-spacing: .22em; }
+.geo-asset-marker { z-index: 3; display: flex; align-items: center; gap: 7px; color: var(--asset-color); transition: transform .18s ease; }
+.geo-asset-marker:hover, .geo-asset-marker.is-selected { z-index: 8; transform: translate(-50%,-50%) scale(1.05); }
+.geo-asset-dot { display: grid; height: 27px; width: 27px; place-items: center; border: 1px solid color-mix(in srgb, var(--asset-color) 70%, white); border-radius: 50%; background: color-mix(in srgb, var(--asset-color) 16%, #07131b); box-shadow: 0 0 0 5px color-mix(in srgb, var(--asset-color) 10%, transparent), 0 0 20px color-mix(in srgb, var(--asset-color) 32%, transparent); }
+.geo-asset-dot span { font-family: 'DM Mono', monospace; font-size: 7px; font-weight: 900; color: var(--asset-color); }
+.geo-asset-label { display: flex; min-width: 72px; flex-direction: column; border: 1px solid rgba(255,255,255,.09); border-radius: 6px; background: rgba(7,19,27,.88); padding: 4px 6px; text-align: left; backdrop-filter: blur(7px); }
+.geo-asset-label strong { font-family: 'DM Mono', monospace; font-size: 8px; color: #c8e9e5; }
+.geo-asset-label small { margin-top: 1px; font-size: 8px; color: #6d8c96; }
+.geo-asset-marker.is-selected .geo-asset-dot { border-width: 2px; }
+@media (max-width: 640px) { .geo-asset-label { display: none; } .geo-asset-dot { height: 24px; width: 24px; } .geo-map-shell { min-height: 480px; } }
