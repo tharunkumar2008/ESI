@@ -181,3 +181,9 @@ button:active { transform: scale(0.985); }
 .gov-shell main::before { inset: 0; height: auto; opacity: .065; background-image: url('/manus-storage/uatmdmrEOXUC_a38bdaeb.png'); background-repeat: no-repeat; background-position: 88% 112px; background-size: 390px auto; filter: grayscale(1) contrast(.9); mix-blend-mode: multiply; }
 .gov-shell main::after { opacity: .27; }
 @media (max-width: 640px) { .gov-shell main::before { background-position: 92% 125px; background-size: 250px auto; opacity: .05; } }
+
+/* Tamil institutional slogan banner */
+.gov-slogan-banner { position: relative; isolation: isolate; text-shadow: 0 1px 0 rgba(255,255,255,.65); }
+.gov-slogan-banner::before, .gov-slogan-banner::after { content: ""; display: inline-block; width: 42px; height: 1px; margin: 0 12px 5px; background: linear-gradient(90deg, transparent, rgba(23,125,120,.58)); vertical-align: middle; }
+.gov-slogan-banner::after { background: linear-gradient(90deg, rgba(23,125,120,.58), transparent); }
+@media (max-width: 640px) { .gov-slogan-banner { font-size: 13px; letter-spacing: .045em; } .gov-slogan-banner::before, .gov-slogan-banner::after { width: 18px; margin-inline: 7px; } }
