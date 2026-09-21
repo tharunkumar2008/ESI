@@ -187,3 +187,12 @@ button:active { transform: scale(0.985); }
 .gov-slogan-banner::before, .gov-slogan-banner::after { content: ""; display: inline-block; width: 42px; height: 1px; margin: 0 12px 5px; background: linear-gradient(90deg, transparent, rgba(23,125,120,.58)); vertical-align: middle; }
 .gov-slogan-banner::after { background: linear-gradient(90deg, rgba(23,125,120,.58), transparent); }
 @media (max-width: 640px) { .gov-slogan-banner { font-size: 13px; letter-spacing: .045em; } .gov-slogan-banner::before, .gov-slogan-banner::after { width: 18px; margin-inline: 7px; } }
+
+/* ESI text-first product wordmark */
+.esi-wordmark { position: relative; display: grid; height: 38px; width: 52px; place-items: center; overflow: hidden; border-radius: 10px; background: linear-gradient(145deg, #1e86a4 0%, #116478 46%, #0d3557 100%); box-shadow: 0 8px 18px rgba(14,85,112,.28), inset 0 1px 0 rgba(255,255,255,.22); }
+.esi-wordmark::before { content: ""; position: absolute; inset: 5px; border: 1px solid rgba(178,250,240,.32); border-radius: 6px; }
+.esi-wordmark::after { content: ""; position: absolute; bottom: 0; left: 9px; right: 9px; height: 2px; background: linear-gradient(90deg, #f4b44f, #fff 48%, #60d79c); }
+.esi-wordmark span { position: relative; z-index: 1; color: #f5fffd; font-size: 13px; font-weight: 950; letter-spacing: -.12em; transform: translateX(-1px); }
+.esi-brand-lockup { display: flex; min-width: 0; flex-direction: column; gap: 1px; }
+.esi-brand-title { color: #e8f6f4; font-size: 18px; font-weight: 950; letter-spacing: -.075em; line-height: 1; }
+.esi-brand-subtitle { overflow: hidden; color: #78a3aa; font-size: 8px; font-weight: 800; letter-spacing: .11em; line-height: 1.2; text-overflow: ellipsis; text-transform: uppercase; white-space: nowrap; }
