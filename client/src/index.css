@@ -176,3 +176,8 @@ button:active { transform: scale(0.985); }
 @keyframes signal-bar { from { transform: scaleY(.65); opacity: .45; } to { transform: scaleY(1.08); opacity: 1; } }
 .gov-shell .electric-command-panel + .gov-panel { margin-top: 0; }
 @media (max-width: 640px) { .electric-command-panel { padding: 18px; } .electric-reading { min-height: 92px; padding: 11px; } }
+
+/* Tamil Nadu institutional watermark — decorative reference only */
+.gov-shell main::before { inset: 0; height: auto; opacity: .065; background-image: url('/manus-storage/uatmdmrEOXUC_a38bdaeb.png'); background-repeat: no-repeat; background-position: 88% 112px; background-size: 390px auto; filter: grayscale(1) contrast(.9); mix-blend-mode: multiply; }
+.gov-shell main::after { opacity: .27; }
+@media (max-width: 640px) { .gov-shell main::before { background-position: 92% 125px; background-size: 250px auto; opacity: .05; } }
