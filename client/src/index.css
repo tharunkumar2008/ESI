@@ -379,3 +379,39 @@ button:active { transform: scale(0.985); }
 .gov-shell:has(.futuristic-dashboard) aside nav button.gov-nav-active::before { background: linear-gradient(180deg, #5ee6d0, #b26dff); box-shadow: 0 0 13px #a765ff; }
 .gov-shell:has(.futuristic-dashboard) aside > div:last-child { border-top-color: rgba(156,117,255,.18); background: linear-gradient(180deg, transparent, rgba(4,4,13,.35)); }
 .gov-shell:has(.futuristic-dashboard) aside > div:last-child .rounded-lg { border-color: rgba(156,117,255,.17); background: rgba(255,255,255,.035); }
+
+/* Shared futuristic theme across every ESI route */
+.futuristic-app { background: #050509 !important; color: #f6f2ff; }
+.futuristic-app main { background: #050509; }
+.futuristic-app .gov-strip { background: #050509; border-color: rgba(255,255,255,.08); color: #aaa4bc; }
+.futuristic-app .gov-slogan-banner { color: #d991ff !important; }
+.futuristic-app .gov-panel { border-color: rgba(159,126,255,.19) !important; background: linear-gradient(145deg, rgba(17,15,31,.94), rgba(7,11,24,.94)) !important; box-shadow: 0 20px 55px rgba(4,4,15,.24), inset 0 1px rgba(255,255,255,.05); }
+.futuristic-app .gov-panel h3, .futuristic-app .gov-panel h4 { color: #eee9fa !important; }
+.futuristic-app .gov-panel [class*="text-[#18334d"], .futuristic-app .gov-panel [class*="text-[#18334d"] { color: #eee9fa !important; }
+.futuristic-app .gov-data-card { border-color: rgba(159,126,255,.17) !important; background: rgba(255,255,255,.03) !important; color: #eee9fa; box-shadow: inset 0 1px rgba(255,255,255,.04); }
+.futuristic-app .gov-data-card:hover { border-color: rgba(182,106,255,.42) !important; background: rgba(147,90,255,.07) !important; }
+.futuristic-app .gov-leader-card { border-color: rgba(159,126,255,.18) !important; background: rgba(255,255,255,.035) !important; box-shadow: none !important; }
+.futuristic-app .gov-leader-card:hover { border-color: rgba(94,230,208,.42) !important; background: rgba(125,82,255,.09) !important; }
+.futuristic-app .gov-leader-card [class*="text-[#18334d"], .futuristic-app .gov-leader-card [class*="text-[#18334d"] { color: #eee9fa !important; }
+.futuristic-app .gov-leader-card [class*="text-[#536a7e"], .futuristic-app .gov-leader-card [class*="text-[#536a7e"] { color: #9c96ad !important; }
+.futuristic-app .gov-leadership-panel .border-t { border-color: rgba(255,255,255,.08) !important; }
+.futuristic-app input, .futuristic-app textarea, .futuristic-app select { border-color: rgba(159,126,255,.22) !important; background: rgba(255,255,255,.035) !important; color: #f6f2ff !important; }
+.futuristic-app button[class*="bg-[#5ee6d0"], .futuristic-app a[class*="bg-[#5ee6d0"] { background: linear-gradient(135deg, #5ee6d0, #8f7dff) !important; color: #090812 !important; box-shadow: 0 0 18px rgba(94,230,208,.16); }
+.futuristic-app [class*="bg-[#f6faff"], .futuristic-app [class*="bg-[#eef7ff"] { background: rgba(255,255,255,.035) !important; }
+.futuristic-app [class*="text-[#1d63a9"], .futuristic-app [class*="text-[#0f5b57"] { color: #b998ff !important; }
+.futuristic-app [class*="text-[#536a7e"], .futuristic-app [class*="text-[#718697"], .futuristic-app [class*="text-[#718d97"] { color: #9a96ad !important; }
+.futuristic-app [class*="border-[#d7e1e9"], .futuristic-app [class*="border-[#1d63a9"] { border-color: rgba(159,126,255,.18) !important; }
+.futuristic-app .recharts-cartesian-grid-horizontal line, .futuristic-app .recharts-cartesian-grid-vertical line { stroke: rgba(255,255,255,.07); }
+.futuristic-app footer { background: #050509; border-color: rgba(255,255,255,.08); color: #77738e; }
+.futuristic-app .gov-energy-line::after { background: linear-gradient(90deg, #5ee6d0, #956cff, transparent) !important; }
+.futuristic-app aside { background: radial-gradient(circle at 28% 8%, rgba(103,72,211,.18), transparent 26%), radial-gradient(circle at 86% 78%, rgba(46,125,190,.12), transparent 24%), linear-gradient(180deg, #090817 0%, #080916 54%, #05050d 100%); border-right-color: rgba(156,117,255,.22); }
+.futuristic-app aside nav button.gov-nav-active { border-color: rgba(172,120,255,.3); background: linear-gradient(90deg, rgba(124,81,255,.22), rgba(54,187,190,.12)) !important; }
+.futuristic-app .gov-panel .rounded-xl, .futuristic-app .gov-panel .rounded-lg { border-color: rgba(159,126,255,.14); }
+@media (max-width: 720px) { .futuristic-app main { padding-top: 16px; } }
+
+.futuristic-app header { background: rgba(5,5,9,.96) !important; border-color: rgba(255,255,255,.08) !important; }
+.futuristic-app header [class*="text-[#18334d"], .futuristic-app header [class*="text-[#0f5b57"] { color: #eee9fa !important; }
+.futuristic-app header input { color: #eee9fa !important; }
+.futuristic-app header input::placeholder { color: #77738e !important; }
+.futuristic-app header button { border-color: rgba(159,126,255,.18) !important; background: rgba(255,255,255,.035) !important; color: #c8c0df !important; }
+.futuristic-app header button:hover { background: rgba(126,86,255,.14) !important; }
