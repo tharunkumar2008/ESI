@@ -145,3 +145,11 @@ The portal includes links to the current public service sites discovered from of
 ## Leadership reference card
 
 The dashboard includes a neutral **Leadership reference** card with corrected office titles: **Shri Narendra Modi — Prime Minister of India** and **Thiru C. Joseph Vijay — Chief Minister of Tamil Nadu**. The portraits are displayed as a reference only, with an explicit non-endorsement disclaimer and links to the [Prime Minister of India](https://www.pmindia.gov.in/en/) and [Tamil Nadu government minister list](https://www.tn.gov.in/minister_list.php). This card does not imply government ownership, endorsement, or official integration of ESI.
+
+## Backend concurrency hardening
+
+The server is now hardened for a practical **200 concurrent-user prototype target**, subject to the capacity of the selected WebDev runtime and database tier. The backend uses a reusable MySQL/TiDB connection pool with a configurable `DB_POOL_SIZE` (default 10), bounded request bodies, keep-alive and request timeouts, proxy-aware API throttling, and graceful SIGTERM/SIGINT draining. Anonymous public telemetry reads skip unnecessary session verification work, while authenticated requests continue through the Manus OAuth session path.
+
+Operational probes are available at `/healthz` for process health and `/readyz` for database readiness. The tRPC surface is protected by a per-client rolling request window to prevent runaway traffic; the default is 2,400 requests per minute per client key and can be tuned in `server/_core/index.ts` for a trusted gateway or production rate-limit service. The pool, rate limit, request timeout, and connection settings are intentionally conservative defaults for the prototype and should be load-tested again after connecting real utility data or changing the hosting/database tier.
+
+The 200-request concurrency smoke test completed with **200/200 successful responses** against the public summary endpoint. This validates the current prototype path; it is not a substitute for a sustained production load test with authenticated users, real database traffic, telemetry ingestion, and utility security controls.

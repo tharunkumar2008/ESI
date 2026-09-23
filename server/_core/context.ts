@@ -1,5 +1,6 @@
 import type { CreateExpressContextOptions } from "@trpc/server/adapters/express";
 import type { User } from "../../drizzle/schema";
+import { COOKIE_NAME } from "@shared/const";
 import { sdk } from "./sdk";
 
 export type TrpcContext = {
@@ -13,11 +14,18 @@ export async function createContext(
 ): Promise<TrpcContext> {
   let user: User | null = null;
 
-  try {
-    user = await sdk.authenticateRequest(opts.req);
-  } catch (error) {
-    // Authentication is optional for public procedures.
-    user = null;
+  // Most ESI telemetry reads are intentionally public in the prototype. Do
+  // not spend a JWT verification cycle (or emit a warning) when no credentials
+  // were sent. Authenticated routes still use the normal SDK path.
+  const hasSessionCookie = Boolean(opts.req.headers.cookie?.includes(`${COOKIE_NAME}=`));
+  const hasBearerToken = typeof opts.req.headers.authorization === "string" && opts.req.headers.authorization.startsWith("Bearer ");
+  if (hasSessionCookie || hasBearerToken) {
+    try {
+      user = await sdk.authenticateRequest(opts.req);
+    } catch (error) {
+      // Authentication is optional for public procedures.
+      user = null;
+    }
   }
 
   return {

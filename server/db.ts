@@ -1,20 +1,55 @@
 import { desc, eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
+import { createPool } from "mysql2/promise";
 import { InsertUser, users } from "../drizzle/schema";
 import { ENV } from "./_core/env";
 
 let _db: ReturnType<typeof drizzle> | null = null;
+let _pool: { end: () => Promise<void> } | null = null;
 
 export async function getDb() {
   if (!_db && process.env.DATABASE_URL) {
     try {
-      _db = drizzle(process.env.DATABASE_URL);
+      _pool = createPool({
+        uri: process.env.DATABASE_URL,
+        connectionLimit: Number(process.env.DB_POOL_SIZE ?? 10),
+        waitForConnections: true,
+        queueLimit: 0,
+        enableKeepAlive: true,
+        keepAliveInitialDelay: 0,
+        connectTimeout: 10_000,
+      });
+      // Drizzle's mysql2 type currently resolves against the callback-pool
+      // typings while mysql2/promise exposes the promise-pool typings.
+      _db = drizzle(_pool as any);
     } catch (error) {
       console.warn("[Database] Failed to connect:", error);
+      _pool = null;
       _db = null;
     }
   }
   return _db;
+}
+
+export async function checkDbHealth(): Promise<boolean> {
+  if (!process.env.DATABASE_URL) return true;
+  const db = await getDb();
+  if (!db) return false;
+  try {
+    await db.execute("SELECT 1");
+    return true;
+  } catch (error) {
+    console.warn("[Database] Health check failed:", error);
+    return false;
+  }
+}
+
+export async function closeDb(): Promise<void> {
+  if (_pool) {
+    await _pool.end();
+    _pool = null;
+    _db = null;
+  }
 }
 
 export async function upsertUser(user: InsertUser): Promise<void> {
