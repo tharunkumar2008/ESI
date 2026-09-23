@@ -88,7 +88,7 @@ export async function getUserByOpenId(openId: string) {
   return result[0];
 }
 
-export type SimScenario = "normal" | "abnormal-load" | "energy-imbalance" | "meter-anomaly" | "transformer-anomaly";
+export type SimScenario = "normal" | "abnormal-load" | "potential-theft" | "meter-anomaly" | "transformer-anomaly" | "night-consumption" | "energy-imbalance";
 export type Severity = "LOW" | "MEDIUM" | "HIGH" | "CRITICAL";
 
 export type NetworkNode = {
@@ -113,6 +113,7 @@ export type AnomalyRecord = {
   location: string;
   type: string;
   deviation: number;
+  anomalyScore: number;
   risk: number;
   confidence: number;
   severity: Severity;
@@ -183,9 +184,11 @@ function anomalyFor(mode: SimScenario): AnomalyRecord | null {
   if (mode === "normal") return null;
   const config: Record<Exclude<SimScenario, "normal">, { type: string; risk: number; deviation: number; confidence: number; description: string; causes: string[]; recommendation: string }> = {
     "abnormal-load": { type: "Abnormal Load", risk: 72, deviation: 58, confidence: 0.91, description: "Current demand is materially above the learned electric signature for this time window.", causes: ["Unexpected consumer load", "Repeated evening surge", "Possible equipment start-up"], recommendation: "Validate feeder load profile and inspect high-demand consumer groups." },
-    "energy-imbalance": { type: "Energy Imbalance", risk: 64, deviation: 46, confidence: 0.86, description: "Energy supplied and energy accounted for diverge beyond the prototype investigation threshold.", causes: ["Technical losses", "Metering error", "Communication gap", "Potential unauthorized consumption"], recommendation: "Reconcile feeder meters and verify transformer/section metering in the field." },
+    "potential-theft": { type: "Potential Electricity Theft", risk: 87, deviation: 34, confidence: 0.92, description: "A suspicious electrical pattern was detected: supplied energy and the learned section signature do not align.", causes: ["Possible unauthorized consumption", "Energy accounting gap", "Unexpected route-level demand"], recommendation: "Perform authorized field verification and meter/network inspection. This is not a definitive theft finding." },
+    "energy-imbalance": { type: "Energy Imbalance", risk: 82, deviation: 46, confidence: 0.86, description: "Energy supplied and energy accounted for diverge beyond the prototype investigation threshold.", causes: ["Technical losses", "Metering error", "Communication gap", "Possible unauthorized consumption"], recommendation: "Reconcile feeder meters and verify transformer/section metering in the field." },
     "meter-anomaly": { type: "Potential Meter Tampering", risk: 87, deviation: 64, confidence: 0.94, description: "Current electrical behaviour significantly differs from the learned normal electric signature.", causes: ["Potential meter tampering", "Unexpected nighttime load", "Meter wiring or sensor issue"], recommendation: "Field verification and meter/network inspection recommended. This is not a definitive theft finding." },
     "transformer-anomaly": { type: "Transformer Anomaly", risk: 78, deviation: 61, confidence: 0.89, description: "Transformer operating behaviour is deviating from the expected load, voltage, and power profile.", causes: ["Thermal stress", "Phase imbalance", "Near-capacity operation"], recommendation: "Inspect transformer loading, temperature, and phase balance before continued operation." },
+    "night-consumption": { type: "Unusual Night Consumption", risk: 68, deviation: 52, confidence: 0.88, description: "Night-time demand is materially above the learned overnight operating pattern.", causes: ["Unexpected overnight load", "Continuous equipment operation", "Time-of-use profile change"], recommendation: "Review interval data and schedule an authorized site inspection." },
   };
   const c = config[mode];
   const now = new Date();
@@ -195,6 +198,7 @@ function anomalyFor(mode: SimScenario): AnomalyRecord | null {
     location: "SEC-31",
     type: c.type,
     deviation: c.deviation,
+    anomalyScore: c.risk,
     risk: c.risk,
     confidence: c.confidence,
     severity: riskBand(c.risk),
@@ -233,7 +237,11 @@ export function getNetworkSnapshot() {
 
 export function getSummary() {
   const anomaly = runtime.activeAnomaly;
-  const health = anomaly ? Math.max(62, 95 - Math.round(anomaly.risk * 0.24)) : 95;
+  const health = anomaly ? Math.max(62, 95 - Math.round(anomaly.risk * 0.2)) : 95;
+  const imbalanceByMode: Partial<Record<SimScenario, number>> = { "abnormal-load": 8.5, "potential-theft": 11.6, "meter-anomaly": 11.6, "transformer-anomaly": 7.4, "night-consumption": 8.2, "energy-imbalance": 11.6 };
+  const energyImbalance = anomaly ? (imbalanceByMode[runtime.mode] ?? 8.5) : 4.8;
+  const supplied = 12450;
+  const accounted = Math.round(supplied * (1 - energyImbalance / 100));
   return {
     systemOnline: true,
     simulated: true,
@@ -243,10 +251,10 @@ export function getSummary() {
     feeders: 80,
     sections: 250,
     activeAnomalies: anomaly ? 1 : 0,
-    criticalAlerts: anomaly?.severity === "CRITICAL" ? 1 : 0,
-    energyImbalance: anomaly?.type === "Energy Imbalance" ? 12.2 : 4.8,
-    energySupplied: 12450,
-    energyAccounted: anomaly?.type === "Energy Imbalance" ? 10930 : 11852,
+    criticalAlerts: anomaly && anomaly.risk >= 80 ? 1 : 0,
+    energyImbalance,
+    energySupplied: supplied,
+    energyAccounted: accounted,
     lastUpdated: runtime.updatedAt,
     mode: runtime.mode,
     activeAnomaly: anomaly,
@@ -258,14 +266,19 @@ export function getLive() {
   const network = applyRuntimeToNodes();
   const active = network.find((n) => n.id === runtime.activeSection) ?? network.find((n) => n.id === "SEC-31")!;
   const actualMultiplier = runtime.activeAnomaly ? 1 + runtime.activeAnomaly.deviation / 180 : 1;
-  return { ...active, current: Number((active.current * actualMultiplier).toFixed(2)), power: Number((active.power * actualMultiplier).toFixed(2)), history };
+  const currentHistory = history.map((point, index) => {
+    const anomaly = runtime.activeAnomaly;
+    const wave = anomaly ? Math.sin(index * 1.35) * anomaly.deviation / 95 : Math.sin(index * 1.8) * 0.22;
+    return { ...point, actual: Number((point.baseline * (anomaly ? 1 + anomaly.deviation / 260 : 1) + wave / 10).toFixed(2)), load: anomaly ? Math.min(99, Math.round(point.load + anomaly.risk * 0.22 + Math.sin(index) * 3)) : point.load };
+  });
+  return { ...active, current: Number((active.current * actualMultiplier).toFixed(2)), power: Number((active.power * actualMultiplier).toFixed(2)), history: currentHistory };
 }
 
 export function getAnomalies() {
   const list: AnomalyRecord[] = [];
   if (runtime.activeAnomaly) list.push(runtime.activeAnomaly);
-  list.push({ id: "ANM-002", timestamp: new Date(Date.now() - 1000 * 60 * 42).toISOString(), location: "TR-04", type: "Transformer Anomaly", deviation: 39, risk: 72, confidence: 0.88, severity: "HIGH", status: "Acknowledged", description: "Transformer load profile showed a sustained deviation from the normal electric signature.", causes: ["Thermal stress", "Load concentration"], recommendation: "Inspect transformer temperature and phase balance." });
-  list.push({ id: "ANM-003", timestamp: new Date(Date.now() - 1000 * 60 * 95).toISOString(), location: "FDR-21", type: "Energy Imbalance", deviation: 31, risk: 54, confidence: 0.81, severity: "MEDIUM", status: "Resolved", description: "Feeder accounting gap exceeded the prototype threshold for two intervals.", causes: ["Metering error", "Technical loss"], recommendation: "Reconcile feeder meters." });
+  list.push({ id: "ANM-002", timestamp: new Date(Date.now() - 1000 * 60 * 42).toISOString(), location: "TR-04", type: "Transformer Anomaly", deviation: 39, anomalyScore: 72, risk: 72, confidence: 0.88, severity: "HIGH", status: "Acknowledged", description: "Transformer load profile showed a sustained deviation from the normal electric signature.", causes: ["Thermal stress", "Load concentration"], recommendation: "Inspect transformer temperature and phase balance." });
+  list.push({ id: "ANM-003", timestamp: new Date(Date.now() - 1000 * 60 * 95).toISOString(), location: "FDR-21", type: "Energy Imbalance", deviation: 31, anomalyScore: 54, risk: 54, confidence: 0.81, severity: "MEDIUM", status: "Resolved", description: "Feeder accounting gap exceeded the prototype threshold for two intervals.", causes: ["Metering error", "Technical loss"], recommendation: "Reconcile feeder meters." });
   return list;
 }
 

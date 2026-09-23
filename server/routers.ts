@@ -5,7 +5,7 @@ import { systemRouter } from "./_core/systemRouter";
 import { publicProcedure, router } from "./_core/trpc";
 import { acknowledgeAnomaly, getAnomalies, getEnergy, getEvents, getLive, getNetworkSnapshot, getReports, getRuntime, getSignature, getSummary, resolveAnomaly, runSimulation, type SimScenario } from "./db";
 
-const scenarioSchema = z.enum(["normal", "abnormal-load", "energy-imbalance", "meter-anomaly", "transformer-anomaly"]);
+const scenarioSchema = z.enum(["normal", "abnormal-load", "potential-theft", "meter-anomaly", "transformer-anomaly", "night-consumption", "energy-imbalance"]);
 
 export const appRouter = router({
   system: systemRouter,

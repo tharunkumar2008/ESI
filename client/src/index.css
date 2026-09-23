@@ -219,3 +219,43 @@ button:active { transform: scale(0.985); }
 .founder-signature { align-items: center; gap: 8px; border-left: 1px solid rgba(29,99,169,.16); padding-left: 14px; }
 .founder-signature span { color: #6c8795; font-family: 'DM Mono', ui-monospace, monospace; font-size: 8px; font-weight: 700; letter-spacing: .14em; }
 .founder-signature strong { color: #174f76; font-size: 10px; font-weight: 950; letter-spacing: .02em; }
+
+/* Reference-inspired live command-center dashboard */
+.reference-dashboard { color: #f5efff; }
+.reference-hero-grid { display: grid; grid-template-columns: minmax(210px,.72fr) minmax(360px,1.7fr) minmax(210px,.72fr); gap: 14px; min-height: 360px; }
+.reference-cluster-stack { display: grid; align-content: center; gap: 12px; }
+.reference-cluster-card, .reference-sla-card, .reference-bottom-card, .reference-metric-card { border: 1px solid rgba(255,255,255,.10); background: linear-gradient(145deg, rgba(24,20,31,.98), rgba(10,9,14,.98)); border-radius: 14px; box-shadow: 0 18px 55px rgba(0,0,0,.25), inset 0 1px rgba(255,255,255,.04); }
+.reference-cluster-card { padding: 16px; }
+.reference-globe-stage { position: relative; min-height: 360px; overflow: hidden; isolation: isolate; border-radius: 18px; background: radial-gradient(circle at 50% 52%, rgba(133,45,255,.22), transparent 36%), linear-gradient(180deg, rgba(5,4,8,.65), rgba(13,7,21,.96)); }
+.reference-globe-stage::before { content: ""; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 98%, rgba(184,79,255,.55), transparent 42%); filter: blur(18px); z-index: -1; }
+.reference-globe-halo { position: absolute; left: 50%; top: 47%; width: 285px; height: 285px; transform: translate(-50%,-50%); border-radius: 50%; background: radial-gradient(circle, rgba(159,75,255,.22), rgba(159,75,255,.06) 45%, transparent 70%); filter: blur(12px); }
+.reference-globe { position: absolute; left: 50%; top: 47%; width: min(76%, 350px); transform: translate(-50%,-50%); filter: drop-shadow(0 22px 32px rgba(173,66,255,.32)); object-fit: contain; }
+.reference-grid-floor { position: absolute; left: -15%; right: -15%; bottom: -20px; height: 110px; transform: perspective(160px) rotateX(55deg); transform-origin: bottom; background-image: linear-gradient(rgba(202,104,255,.32) 1px, transparent 1px), linear-gradient(90deg, rgba(202,104,255,.25) 1px, transparent 1px); background-size: 28px 22px; mask-image: linear-gradient(to top, rgba(0,0,0,.9), transparent); opacity: .55; }
+.reference-globe-label { position: absolute; left: 50%; bottom: 16px; transform: translateX(-50%); white-space: nowrap; font-size: 9px; letter-spacing: .12em; color: #ab8fc2; }
+.reference-sla-card { align-self: center; padding: 16px; }
+.reference-gauge { position: relative; width: 154px; height: 154px; margin: 20px auto 12px; border-radius: 50%; transform: rotate(-25deg); filter: drop-shadow(0 0 12px rgba(190,76,255,.22)); }
+.reference-gauge-hole { position: absolute; inset: 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; border-radius: 50%; background: #0d0b12; transform: rotate(25deg); }
+.reference-metric-card { min-height: 160px; padding: 15px; overflow: hidden; }
+.reference-bars { display: flex; align-items: end; gap: 3px; height: 42px; margin: 20px -15px -15px; padding: 0 15px; background: linear-gradient(180deg, transparent, rgba(164,73,255,.04)); }
+.reference-bars i { display: block; flex: 1; min-width: 2px; border-radius: 3px 3px 0 0; opacity: .9; box-shadow: 0 0 8px currentColor; }
+.reference-bottom-card { min-height: 150px; padding: 16px; }
+.reference-dashboard button { transition: transform .18s ease, border-color .18s ease, background-color .18s ease; }
+.reference-dashboard button:hover { transform: translateY(-1px); }
+@media (max-width: 1100px) { .reference-hero-grid { grid-template-columns: 1fr 1.4fr; } .reference-sla-card { grid-column: 1 / -1; } }
+@media (max-width: 760px) { .reference-hero-grid { grid-template-columns: 1fr; } .reference-globe-stage { min-height: 300px; } .reference-sla-card { grid-column: auto; } }
+
+.reference-globe-css { border-radius: 50%; background: radial-gradient(circle at 34% 27%, #f0c8ff 0 2%, #b963ff 8%, #4a168a 40%, #17082a 72%, #05020b 100%); box-shadow: 0 0 18px #d471ff, 0 0 55px rgba(184,72,255,.75), inset -20px -12px 25px rgba(0,0,0,.75); overflow: hidden; }
+.reference-globe-css::before, .reference-globe-css::after { content: ""; position: absolute; inset: 8%; border: 1px solid rgba(239,185,255,.72); border-radius: 50%; transform: rotate(22deg) scaleX(.42); box-shadow: 0 0 9px rgba(226,146,255,.85); }
+.reference-globe-css::after { transform: rotate(-22deg) scaleX(.68); opacity: .65; }
+.reference-globe-latitude, .reference-globe-longitude { position: absolute; inset: 14% 2%; border-top: 1px solid rgba(218,133,255,.52); border-bottom: 1px solid rgba(218,133,255,.52); border-radius: 50%; transform: rotate(-12deg) scaleY(.33); }
+.reference-globe-longitude { inset: 2% 18%; border-top: 0; border-bottom: 0; border-left: 1px solid rgba(236,171,255,.78); border-right: 1px solid rgba(236,171,255,.78); transform: rotate(18deg) scaleX(.34); }
+.reference-globe-points { position: absolute; inset: 14%; background-image: radial-gradient(circle, rgba(255,218,255,.95) 0 1px, transparent 2px), radial-gradient(circle, rgba(212,122,255,.9) 0 1px, transparent 2px); background-size: 17px 19px, 23px 22px; background-position: 2px 4px, 8px 7px; opacity: .75; mix-blend-mode: screen; }
+
+.reference-globe-css { height: min(76%, 350px); aspect-ratio: 1 / 1; }
+
+.gov-shell:has(.reference-dashboard) { background: #050509 !important; }
+.gov-shell:has(.reference-dashboard) main { max-width: none; background: #050509; }
+.gov-shell:has(.reference-dashboard) header { background: rgba(5,5,9,.96) !important; border-color: rgba(255,255,255,.08); }
+.gov-shell:has(.reference-dashboard) .gov-strip { background: #050509; border-color: rgba(255,255,255,.08); color: #b9afc9; }
+.gov-shell:has(.reference-dashboard) .gov-slogan-banner { color: #d991ff !important; }
+.gov-shell:has(.reference-dashboard) footer { border-color: rgba(255,255,255,.08); background: #050509; }
