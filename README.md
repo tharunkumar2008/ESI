@@ -153,3 +153,11 @@ The server is now hardened for a practical **200 concurrent-user prototype targe
 Operational probes are available at `/healthz` for process health and `/readyz` for database readiness. The tRPC surface is protected by a per-client rolling request window to prevent runaway traffic; the default is 2,400 requests per minute per client key and can be tuned in `server/_core/index.ts` for a trusted gateway or production rate-limit service. The pool, rate limit, request timeout, and connection settings are intentionally conservative defaults for the prototype and should be load-tested again after connecting real utility data or changing the hosting/database tier.
 
 The 200-request concurrency smoke test completed with **200/200 successful responses** against the public summary endpoint. This validates the current prototype path; it is not a substitute for a sustained production load test with authenticated users, real database traffic, telemetry ingestion, and utility security controls.
+
+## Security hardening
+
+ESI operational data is now behind the authenticated `protectedProcedure` boundary. Dashboard telemetry, signatures, anomalies, alerts, reports, simulations, network views, and hardware endpoints require a valid Manus session; only session discovery and logout remain public. Hardware readings use bounded, finite, schema-validated values and constrained device identifiers.
+
+The Express layer now disables framework fingerprinting, limits JSON and URL-encoded payload sizes, applies a stricter per-client API rate limit, blocks cross-origin browser mutations that carry the session cookie, removes database readiness details from public responses, and emits security headers including CSP, HSTS on HTTPS, clickjacking protection, MIME sniffing protection, restrictive referrer policy, cross-origin isolation hints, and a restrictive Permissions Policy.
+
+These controls materially reduce common exposure risks but do not make any internet application impossible to attack. Production deployment should use a strong managed secret for `JWT_SECRET`, TLS-only access, least-privilege database credentials, encrypted database backups, centralized audit logs, dependency patching, external WAF/rate limiting, and periodic authorized security testing. Never place secrets in frontend code, browser storage, screenshots, or repository files.
